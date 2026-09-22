@@ -64,6 +64,22 @@ services:
     depends_on:
       - loki
   
+  alert-receiver:
+    build:
+      context: ./alert-receiver
+    container_name: alert-receiver
+
+    ports:
+      - "8001:8000"
+
+    environment:
+      - PROMETHEUS_URL=http://prometheus:9090
+      - LOKI_URL=http://loki:3100
+
+    depends_on:
+      - prometheus
+      - loki
+
   alert-assistant:
     build:
       context: ./alert-assistant
